@@ -14,6 +14,7 @@ Data set is created by using ffmpeg tool.
 * pillow
 * matplotlib
 * numpy
+* sklearn
 
 All dependencies can be installed by pip.
 

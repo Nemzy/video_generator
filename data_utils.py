@@ -1,6 +1,7 @@
 from PIL import Image
 import numpy as np
 import os
+from sklearn.model_selection import train_test_split
 
 class DataSet(object):
 	def __init__(self, images):
@@ -54,16 +55,18 @@ def read_images(filenames):
 
 	return images
 
-def read_dataset(path):
+def read_dataset(path, test_size):
 	'''Creates data set'''
 	dirpath, dirnames, filenames = next(os.walk(path))
 	images = read_images([os.path.join(dirpath, filename) for filename in filenames])
 	images = np.array(images, dtype = np.float32)
+	train_images, test_images = train_test_split(images, test_size = test_size)
 
-	return DataSet(images)
+	return DataSet(train_images), DataSet(test_images)
 
 if __name__ == '__main__':
-	ds = read_dataset('data/frames')
-	print 'Shape:',ds.images().shape
-	print 'Memory size:', ds.images().nbytes / (1024.0 * 1024.0), 'MB'
-	print 'Batch shape:', ds.next_batch(100).shape
+	train_ds, test_ds = read_dataset('data/frames', 0.097)
+	print 'Shape:', train_ds.images().shape
+	print 'Shape:', test_ds.images().shape
+	print 'Memory size:', (train_ds.images().nbytes + test_ds.images().nbytes) / (1024.0 * 1024.0), 'MB'
+	print 'Batch shape:', train_ds.next_batch(100).shape
