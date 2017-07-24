@@ -1,4 +1,4 @@
 *.pyc
-data
-data/*
+data/output
+data/video
 .ipynb_checkpoints/

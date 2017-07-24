@@ -15,8 +15,8 @@ def deconv2d(x, output_shape, name, reuse = False):
 		w = tf.get_variable('w', [5, 5, output_shape[-1], int(x.get_shape()[-1])], initializer = tf.truncated_normal_initializer(stddev = 0.1))
 		b = tf.get_variable('b', [output_shape[-1]], initializer = tf.constant_initializer(0.1))
 
-		conv = tf.nn.conv2d_transpose(x, w, output_shape = output_shape, strides = [1,2,2,1])
-		return conv
+		deconv = tf.nn.conv2d_transpose(x, w, output_shape = output_shape, strides = [1,2,2,1]) + b
+		return deconv
 
 def dense(x, input_dim, output_dim, name, reuse = False):
 	'''Fully-connected Layer'''
